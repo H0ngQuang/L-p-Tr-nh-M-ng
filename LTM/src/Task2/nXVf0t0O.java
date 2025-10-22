@@ -5,14 +5,10 @@
 package Task2;
 
 import UDP.Book;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
+import java.io.*;
+import java.lang.reflect.Array;
+import java.net.*;
+import java.util.ArrayList;
 /**
  *
  * @author Admin
@@ -22,83 +18,59 @@ public class nXVf0t0O {
         DatagramSocket socket = new DatagramSocket();
         InetAddress sA = InetAddress.getByName("203.162.10.109");
         int sP = 2209;
-
-        // a. Gửi mã sinh viên + qCode
+        
         String code = ";B22DCCN652;nXVf0t0O";
-        DatagramPacket dpGui = new DatagramPacket(code.getBytes(), code.length(), sA, sP);
+        DatagramPacket dpGui =new DatagramPacket(code.getBytes(),code.length(),sA,sP);
         socket.send(dpGui);
-
-        // b. Nhận dữ liệu từ server
-        byte[] buffer = new byte[10240];
+        
+        byte []buffer=  new byte[1024];
         DatagramPacket dpNhan = new DatagramPacket(buffer, buffer.length);
         socket.receive(dpNhan);
-
-        String requestId = new String(dpNhan.getData(), 0, 8);
-        System.out.println("Request ID: " + requestId);
-
-        ByteArrayInputStream bais = new ByteArrayInputStream(dpNhan.getData(), 8, dpNhan.getLength() - 8);
+        
+        String reId = new String(dpNhan.getData(),0,8);
+        
+        ByteArrayInputStream bais = new ByteArrayInputStream(dpNhan.getData(),8,dpNhan.getLength()-8);
         ObjectInputStream ois = new ObjectInputStream(bais);
         Book book = (Book) ois.readObject();
-
-        System.out.println("Before: " + book);
-
-        // c. Chuẩn hóa dữ liệu
-
-        // Title: viết hoa chữ cái đầu của mỗi từ, các ký tự còn lại in thường
-        String[] wordsTitle = book.getTitle().trim().split("\\s+");
-        StringBuilder fixedTitle = new StringBuilder();
-        for (String w : wordsTitle) {
-            fixedTitle.append(Character.toUpperCase(w.charAt(0)))
-                      .append(w.substring(1).toLowerCase())
-                      .append(" ");
-        }
-        book.setTitle(fixedTitle.toString().trim());
-
-        // Author: lấy từ đầu (họ) + từ cuối (tên)
-        String[] wordsAuthor = book.getAuthor().trim().split("\\s+");
-        if (wordsAuthor.length >= 2) {
-            String author = capitalize(wordsAuthor[0]) + ", " + capitalize(wordsAuthor[wordsAuthor.length - 1]);
-            book.setAuthor(author);
-        }
-
-        // ISBN: format thành nhóm có dấu gạch ngang
-        String isbn = book.getIsbn().trim();
-        if (isbn.length() == 13) { // ISBN-13
-            String isbnFormat = isbn.substring(0, 3) + "-" 
-                              + isbn.substring(3, 4) + "-" 
-                              + isbn.substring(4, 6) + "-" 
-                              + isbn.substring(6, 12) + "-" 
-                              + isbn.substring(12);
-            book.setIsbn(isbnFormat);
-        }
-
-        // Publish date: yyyy-mm-dd -> mm/yyyy
-        String[] dateParts = book.getPublishDate().trim().split("-");
-        if (dateParts.length >= 2) {
-            String publishDate = dateParts[1] + "/" + dateParts[0];
-            book.setPublishDate(publishDate);
-        }
-
-        System.out.println("After: " + book);
-
-        // d. Gửi lại đối tượng đã chuẩn hóa
+        book.setTitle(formatTitle(book.getTitle()));
+        book.setAuthor(formatAuthor(book.getAuthor()));
+        book.setIsbn(formatisbn(book.getIsbn()));
+        book.setPublishDate(formatpublishDate(book.getPublishDate()));
+        
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
         oos.writeObject(book);
         oos.flush();
-
-        byte[] sendData = new byte[8 + baos.size()];
-        System.arraycopy(requestId.getBytes(), 0, sendData, 0, 8);
-        System.arraycopy(baos.toByteArray(), 0, sendData, 8, baos.size());
-
-        DatagramPacket dpGuiLai = new DatagramPacket(sendData, sendData.length, sA, sP);
+        
+        byte[] sendData = new byte[8+baos.size()];
+        System.arraycopy(reId.getBytes(),0,sendData,0,8);
+        System.arraycopy(baos.toByteArray(),0,sendData,8,baos.size());
+        DatagramPacket dpGuiLai= new DatagramPacket(sendData,sendData.length,sA,sP);
         socket.send(dpGuiLai);
-
-        socket.close();
     }
-
-    private static String capitalize(String s) {
-        if (s == null || s.isEmpty()) return s;
-        return Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase();
+    public static String formatTitle(String s){
+        String[] tmp = s.trim().split(" ");
+        String res = "";
+        for(String w : tmp){
+        res += Character.toUpperCase(w.charAt(0)) + w.substring(1).toLowerCase() + " ";
+        }
+        return res.trim();
     }
+    public static String formatAuthor(String s ){
+       String[] tmp = s.trim().split(" ");
+       String res = tmp[0].toUpperCase() + ", ";
+       for(int i =1;i<tmp.length;i++){
+           res += Character.toUpperCase(tmp[i].charAt(0)) + tmp[i].substring(1).toLowerCase() + " ";
+       }
+       return res.trim();
+    }
+    public static String formatisbn(String s){
+        return s.substring(0,3) + "-" +  s.substring(3,4) + "-" + s.substring(4,6) + "-" + s.substring(6,12) + "-" +s.substring(12);
+    }
+    public static String formatpublishDate(String s ){
+         String[] tmp = s.trim().split("-");
+         return tmp[1]+"/" + tmp[0];
+    }
+  
+    
 }

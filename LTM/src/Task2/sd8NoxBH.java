@@ -21,9 +21,11 @@ public class sd8NoxBH {
             DatagramSocket socket = new DatagramSocket();
             InetAddress sA = InetAddress.getByName("203.162.10.109");
             int sP = 2207;
+            
             String code = ";B22DCCN652;sd8NoxBH";
             DatagramPacket dpGui = new DatagramPacket(code.getBytes(), code.length(), sA, sP);
             socket.send(dpGui);
+            
             byte []buffer = new byte[1024];
             DatagramPacket dpNhan = new DatagramPacket(buffer,buffer.length);
             socket.receive(dpNhan);
