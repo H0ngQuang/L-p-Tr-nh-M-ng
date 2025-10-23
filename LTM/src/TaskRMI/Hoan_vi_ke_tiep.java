@@ -11,6 +11,41 @@ import java.util.Collections;
  *
  * @author Admin
  */
+//public class Hoan_vi_ke_tiep {
+//    public static void main(String[] args)throws Exception {
+//        Registry rg = LocateRegistry.getRegistry("203.162.10.109");
+//        DataService sv = (DataService) rg.lookup("RMIDataService");
+//        String s = (String) sv.requestData("B22DCCN568", "KSvz00fg");
+//        
+//        String []str = s.trim().split(",");
+//        ArrayList<Integer> a = new ArrayList<>();
+//        for(String i : str){
+//            a.add(Integer.valueOf(i.trim()));
+//        }
+//        int n = a.size();
+//        int i = n -1;
+//        while (i > 0 && a.get(i - 1) >= a.get(i)) i--;
+//        if(i<=0) Collections.sort(a);
+//        else {
+//            int j = n-1;
+//            while(a.get(j) <= a.get(i-1)) j--;
+//            Collections.swap(a, i-1, j);
+//            int l= i,r = n-1;
+//            while(l<r){
+//                Collections.swap(a,l,r);
+//                l++;
+//                r--;
+//            }
+//        }
+//        String res ="";
+//        for(int x : a){
+//            res += x+",";
+//        }
+//        res = res.substring(0,res.length()-1);
+//        sv.submitData("B22DCCN568", "KSvz00fg", res);
+//        
+//    }
+//}
 public class Hoan_vi_ke_tiep {
     public static void main(String[] args)throws Exception {
         Registry rg = LocateRegistry.getRegistry("203.162.10.109");
@@ -23,29 +58,37 @@ public class Hoan_vi_ke_tiep {
             a.add(Integer.valueOf(i.trim()));
         }
         int n = a.size();
-        int i = n -1;
-        while (i > 0 && a.get(i - 1) >= a.get(i)) i--;
-        if(i<=0) Collections.sort(a);
-        else {
+        int i =n-2;
+        while(a.get(i) >= a.get(i+1)) i--;
+        if(i <0) {
+            Collections.sort(a);
+        } else {
             int j = n-1;
-            while(a.get(j) <= a.get(i-1)) j--;
-            Collections.swap(a, i-1, j);
-            int l= i,r = n-1;
+            while(a.get(i) >= a.get(j)) j--;
+            Collections.swap(a, i, j);
+            int l = i+1,r= n-1;
             while(l<r){
                 Collections.swap(a,l,r);
                 l++;
                 r--;
             }
         }
-        String res ="";
-        for(int x : a){
-            res += x+",";
-        }
+        String res = "";
+        for(int w: a) res += w +",";
         res = res.substring(0,res.length()-1);
-        sv.submitData("B22DCCN568", "KSvz00fg", res);
-        
+        sv.submitData( "B22DCCN568", "KSvz00fg" ,res);
     }
 }
+
+
+
+
+
+
+
+
+
+
 //[Mã câu hỏi (qCode): KSvz00fg].  Một chương trình (tạm gọi là RMI Server) cung cấp giao diện cho phép triệu gọi từ xa để xử lý dữ liệu.
 //Giao diện từ xa:
 //public interface DataService extends Remote {

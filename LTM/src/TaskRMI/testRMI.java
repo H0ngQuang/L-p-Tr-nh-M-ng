@@ -4,6 +4,7 @@
  */
 package TaskRMI;
 
+import RMI.ByteService;
 import RMI.CharacterService;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -14,24 +15,22 @@ import java.rmi.registry.Registry;
  */
 public class testRMI {
     public static void main(String[] args) throws Exception{
-        Registry rg= LocateRegistry.getRegistry("203.162.10.109");
+         Registry rg = LocateRegistry.getRegistry("203.162.10.109");
         CharacterService sv = (CharacterService) rg.lookup("RMICharacterService");
-        String s = (String) sv.requestCharacter("B22DCCN471", "xZTuir6j");
-        
-        String res ="";
-        int []dem = new int[256];
+        String s = sv.requestCharacter("B22DCCN759","g418wcAM");
+        int []cnt = new int[256];
         for(char c : s.toCharArray()){
-            dem[c]++;
-            
+            cnt[c] ++;
         }
-        
+        String res ="";
         for(char c : s.toCharArray()){
-            if(dem[c]>0){
-            res += String.format("\"%c\": %d, ",c,dem[c]);
-            dem[c]=0;
-            }}
-        res=res.substring(0,res.length()-2);
+            if(cnt[c] > 0){
+                 res += String.format("\"%c\": %d, ", c,cnt[c]);
+                cnt[c] =0;
+            }
+        }
+        res = res.substring(0,res.length()-2);
         res ="{" + res + "}";
-        sv.submitCharacter("B22DCCN471", "xZTuir6j", res);
-    }
+        sv.submitCharacter("B22DCCN759","g418wcAM", res);
+     }
 }

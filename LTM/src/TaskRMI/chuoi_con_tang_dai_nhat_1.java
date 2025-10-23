@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package TaskRMI;
+package Task;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Admin
  */
-public class chuoi_con_tang_dai_nhat {
+public class chuoi_con_tang_dai_nhat_1 {
     public static void main(String[] args) throws Exception{
         Socket socket = new Socket("203.162.10.109",2206);
         InputStream reader = socket.getInputStream();
