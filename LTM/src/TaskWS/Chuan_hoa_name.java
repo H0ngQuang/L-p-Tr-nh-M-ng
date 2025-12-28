@@ -9,8 +9,8 @@
 package TaskWS;
 
 import java.util.*;
-import vn.medianews.CharacterService;
-import vn.medianews.CharacterService_Service;
+import WS_C.CharacterService;
+import WS_C.CharacterService_Service;
 
 /**
  *

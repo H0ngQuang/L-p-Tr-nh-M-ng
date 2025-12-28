@@ -3,10 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package RMI;
-import java.rmi.*;
-/**
+import java.rmi.*;/**
  *
- * @author Admin
+ * @author admin
  */
 public interface DataService extends Remote {
 public Object requestData(String studentCode, String qCode) throws RemoteException;

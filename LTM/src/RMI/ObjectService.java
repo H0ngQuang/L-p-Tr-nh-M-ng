@@ -7,15 +7,10 @@ import java.io.Serializable;
 import java.rmi.*;
 /**
  *
- * @author Admin
+ * @author admin
  */
-//public interface ObjectService extends Remote {
-//    public Serializable requestObject(String studentCode, String qCode) throws RemoteException;
-//    public void submitObject(String studentCode, String qCode, Serializable object) throws RemoteException;
-//
-//}
-  public interface ObjectService extends Remote {
+public interface ObjectService extends Remote {
         public Serializable requestObject(String studentCode, String qAlias) throws RemoteException;
 
         public void submitObject(String studentCode, String qAlias, Serializable object) throws RemoteException;
-}
+    }

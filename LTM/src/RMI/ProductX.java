@@ -8,17 +8,18 @@ import java.io.Serializable;
 
 /**
  *
- * @author Admin
+ * @author admin
  */
 public class ProductX implements Serializable{
-    private static final long serialVersionUID = 20171107; 
-    public String id, code,discountCode;
-    public int discount;
-    public ProductX(String id,String code, String discountCode,int discount) {
-        this.id= id;
-        this.code= code;
-        this.discountCode = discountCode;
+    private static final long serialVersionUID = 20171107;
+    private String id,code,discountCode;
+    private int discount;
+
+    public ProductX(String id, String code, String discountCode, int discount) {
+        this.id = id;
         this.code = code;
+        this.discountCode = discountCode;
+        this.discount = discount;
     }
 
     public void setId(String id) {
@@ -37,6 +38,10 @@ public class ProductX implements Serializable{
         this.discount = discount;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     public String getId() {
         return id;
     }
@@ -52,8 +57,5 @@ public class ProductX implements Serializable{
     public int getDiscount() {
         return discount;
     }
-
-    
-    
     
 }

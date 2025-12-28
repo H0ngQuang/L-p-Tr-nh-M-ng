@@ -4,7 +4,6 @@
  */
 package TaskWS;
 import java.util.*;
-import vn.medianews.*;
 /**
  *
  * @author Admin

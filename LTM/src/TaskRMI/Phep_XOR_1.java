@@ -23,6 +23,6 @@ public class Phep_XOR_1 {
         for(int i =0;i<s1[1].length();i++){
             res += (char) (s1[1].charAt(i) ^ s1[0].charAt(i%s1[0].length()));
         }
-        sv.submitCharacter(studentCode, qCode,res);
+        
     }
 }

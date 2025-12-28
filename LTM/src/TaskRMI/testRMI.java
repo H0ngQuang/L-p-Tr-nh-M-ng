@@ -1,36 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package TaskRMI;
+import RMI.*;
+import RMI.ProductX;
+import java.rmi.registry.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
-import RMI.ByteService;
-import RMI.CharacterService;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
-/**
- *
- * @author Admin
- */
+
+
 public class testRMI {
-    public static void main(String[] args) throws Exception{
-         Registry rg = LocateRegistry.getRegistry("203.162.10.109");
-        CharacterService sv = (CharacterService) rg.lookup("RMICharacterService");
-        String s = sv.requestCharacter("B22DCCN759","g418wcAM");
-        int []cnt = new int[256];
-        for(char c : s.toCharArray()){
-            cnt[c] ++;
-        }
-        String res ="";
-        for(char c : s.toCharArray()){
-            if(cnt[c] > 0){
-                 res += String.format("\"%c\": %d, ", c,cnt[c]);
-                cnt[c] =0;
-            }
-        }
-        res = res.substring(0,res.length()-2);
-        res ="{" + res + "}";
-        sv.submitCharacter("B22DCCN759","g418wcAM", res);
-     }
+    public static void main(String[] args) throws Exception {
+       Registry rg = LocateRegistry.getRegistry("203.162.10.109");
+       ByteService sv = (ByteService) rg.lookup("RMIByteService");
+       
+       String key ="PTIT";
+       byte[] a = sv.requestData("B22DCCN652", "yIXp8g6l");
+       
+       byte[] keyb = key.getBytes();
+       int n = key.length();
+       byte[] res = new byte[a.length];
+
+       for(int i=0;i<a.length;i++){
+           res[i] = (byte) (a[i] ^ keyb[i%4]);
+         
+       }
+       sv.submitData("B22DCCN652", "yIXp8g6l",res);
+    }
 }
